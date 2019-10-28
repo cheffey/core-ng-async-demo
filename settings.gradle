@@ -1,0 +1,4 @@
+include 'message-service-interface',
+        'message-service'
+
+includeBuild '../core-ng-project'
