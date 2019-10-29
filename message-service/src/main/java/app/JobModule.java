@@ -8,17 +8,25 @@ import java.time.Duration;
 import java.time.LocalTime;
 
 public class JobModule extends Module {
+    private int bindJobCounter = 0;
+
     @Override
     protected void initialize() {
-        TestJobTask Job = bind(TestJobTask.class);
         Executor Chef = executor().add("executorChef", 10);
-        schedule().fixedRate("fixedRate", Job, Duration.ofSeconds(10));
-        schedule().trigger("every 7-13 seconds", Job, time -> time.plusSeconds(Randoms.nextInt(7, 14)));
-        schedule().dailyAt("daily", Job, LocalTime.now().plusSeconds(20));
-        //昨天你说的我忘了，怎么避免Nullpointer?
-        Chef.submit("DelayTask", Job, Duration.ofSeconds(10));
-        for (int i = 0; i < 200; i++) {
-            Chef.submit("instantTask", Job);
-        }
+        schedule().fixedRate("fixedRate", bindNewJobTask(), Duration.ofSeconds(10));
+        schedule().trigger("every 7-13 seconds", bindNewJobTask(), time -> time.plusSeconds(Randoms.nextInt(7, 14)));
+        schedule().dailyAt("daily", bindNewJobTask(), LocalTime.now().plusSeconds(20));
+        onStartup(() -> {
+            context.logManager.begin("");
+            Chef.submit("DelayTask", bindNewJobTask(), Duration.ofSeconds(10));
+            for (int i = 0; i < 200; i++) {
+                Chef.submit("instantTask", bindNewJobTask());
+            }
+        });
+    }
+
+    private TestJobTask bindNewJobTask() {
+        TestJobTask job = new TestJobTask();
+        return bind(TestJobTask.class, "" + bindJobCounter++, job);
     }
 }

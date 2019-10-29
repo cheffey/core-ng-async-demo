@@ -8,6 +8,5 @@ public class RegisterMessageModule extends Module {
     @Override
     protected void initialize() {
         kafka().subscribe("register", RegisterMessage.class, bind(RegisterMessageHandler.class));
-        kafka().publish("register", RegisterMessage.class);
     }
 }

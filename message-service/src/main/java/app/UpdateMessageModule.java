@@ -8,6 +8,5 @@ public class UpdateMessageModule extends Module {
     @Override
     protected void initialize() {
         kafka().subscribe("update", UpdateMessage.class, bind(UpdateMessageHandler.class));
-        kafka().publish("update", UpdateMessage.class);
     }
 }
