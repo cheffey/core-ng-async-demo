@@ -1,7 +1,7 @@
 package app;
 
 import app.kafka.api.message.RegisterMessage;
-import app.kafka.messageHandler.RegisterMessageHandler;
+import app.kafka.messagehandler.RegisterMessageHandler;
 import core.framework.module.Module;
 
 public class RegisterMessageModule extends Module {

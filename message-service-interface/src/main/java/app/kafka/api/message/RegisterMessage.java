@@ -8,10 +8,10 @@ import core.framework.api.validate.NotNull;
 public class RegisterMessage {
     @NotNull
     @NotBlank
-    @Property(name="id")
+    @Property(name = "id")
     public String id;
 
     @Min(0)
-    @Property(name="reward")
+    @Property(name = "reward")
     public Integer reward;
 }

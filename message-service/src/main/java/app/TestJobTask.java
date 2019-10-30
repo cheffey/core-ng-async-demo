@@ -19,26 +19,24 @@ public class TestJobTask implements Job, Task {
 
     @Override
     public void execute() throws Exception {
-        if(Randoms.nextInt(0,2)==0)
-        {
+        if (Randoms.nextInt(0, 2) == 0) {
             executeUpdateMessage();
-        }
-        else{
+        } else {
             executeRegisterMessage();
         }
     }
 
-    private void executeRegisterMessage(){
-        RegisterMessage message=new RegisterMessage();
-        message.id= UUID.randomUUID().toString();
-        message.reward= Randoms.nextInt(5,10);
+    private void executeRegisterMessage() {
+        RegisterMessage message = new RegisterMessage();
+        message.id = UUID.randomUUID().toString();
+        message.reward = Randoms.nextInt(5, 10);
         registerPublisher.publish(message);
     }
 
-    private void executeUpdateMessage(){
-        UpdateMessage message=new UpdateMessage();
-        message.version="1.1"+Randoms.nextInt(1,9);
-        message.link="http://chancetop.com";
+    private void executeUpdateMessage() {
+        UpdateMessage message = new UpdateMessage();
+        message.version = "1.1" + Randoms.nextInt(1, 9);
+        message.link = "http://chancetop.com";
         updatePublisher.publish(message);
     }
 }
